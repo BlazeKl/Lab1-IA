@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Laboratorio 1</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+
+    <script>
+        function mostrar(id) {
+            var objeto = document.getElementById(id)
+            objeto.style.display = "block";
+        }
+        function ocultar(id) {
+            var objeto = document.getElementById(id)
+            objeto.style.display = "none";
+        }  </script>
+
+    <style>
+        .oculto {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <body style="background-color:#F0FFFF;">
+    </body>
+    <img src="img 1.png" width="350px" alt="">
+    <hr />
+    <div class="box">
+        <div>
+            <h1>
+                <label>
+                    <center>Laboratorio 1 </center>
+                </label>
+                <hr />
+                <br /><br /><br />
+            </h1>
+
+        </div>
+        <h3>
+            <label>integrantes :<br /> Felipe Perez<br />Karina Sanchez<br /><br />
+            </label>
+        </h3>
+
+
+    </div>
+    <center>
+        <div id="image-container"></div>
+        <div id="resultado"></div>
+        <form id="image-form" enctype="multipart/form-data">
+            <p>Sube una imagen:
+                <input type="file" name="imagensubida" accept="image/png, .jpeg, .jpg, image/gif">
+                <button type="button" id="send-button">Enviar datos</button>
+            </p>
+        </form>
+    </center>
+
+    <script>
+        $(document).ready(function () {
+            $('#send-button').click(function () {
+                var form_data = new FormData($('#image-form')[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8000/',
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log("Prediccion: " + response);
+                        $('#resultado').html("Me parece que es " + response);
+                        $('#image-container').html("<img src='" + URL.createObjectURL(form_data.get('imagensubida')) + "' width='350px' alt=''>");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                        $('#resultado').html("Error: " + textStatus + " " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
