@@ -5,7 +5,8 @@ import numpy as np
 from PIL import Image
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-model = tf.keras.models.load_model('models/modelo_cnn_cifar100_c10.h5')
+model = tf.keras.models.load_model('models/modelo_cnn.h5')
+model_ncnn = tf.keras.models.load_model('models/modelo_ncnn.h5')
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
@@ -29,12 +30,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
         # Generar prediccion
         y_pred = model.predict(np_image.reshape(1, 32, 32, 3))
-        clases = [
-            'apple', 'aquarium_fish', 'baby', 'bear', 'beaver', 'bed', 'bee', 'beetle', 'bicycle', 'bottle'
-        ]
-
+        clases = ['un avion', 'un auto', 'un ave', 'un gato', 'un ciervo', 'un perro', 'una rana', 'un caballo', 'un barco', 'un camion']
         max = 0
-        for i in range(100):
+        for i in range(10):
             if y_pred[0][i] > max:
                 max = y_pred[0][i]
                 index = i
